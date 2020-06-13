@@ -14,18 +14,18 @@ class CryptographyLib(FunctionLibraryBase):
         super(CryptographyLib, self).__init__(packageName)
         
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
     def SHA256(inp=('StringPin', "")):
         return hashlib.sha256(inp.encode()).hexdigest()
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
     def KeyGen():
         f = Fernet.generate_key()
         return f.decode("utf-8")
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
     def AES_Encrypt(key=('StringPin', ""), dataIn=('StringPin', "")):
         f = Fernet(key)
         rawb = bytes(dataIn, 'utf-8')
@@ -34,7 +34,7 @@ class CryptographyLib(FunctionLibraryBase):
         return tokend
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
     def AES_Decrypt(key=('StringPin', ""), token=('StringPin', "")):
         f = Fernet(key)
         tokenb = token.encode('utf-8')
