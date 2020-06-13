@@ -6,6 +6,7 @@ from PyFlow.Core import NodeBase
 from PyFlow.Core.Common import *
 import hashlib
 from cryptography.fernet import Fernet
+import socket
     
 class CryptographyLib(FunctionLibraryBase):
     '''Cryptographic Primitives'''
@@ -41,3 +42,33 @@ class CryptographyLib(FunctionLibraryBase):
         raw = f.decrypt(tokenb)
         rawd = raw.decode('utf-8')
         return rawd
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    def ClientSend(message=('StringPin', "")):
+        host = socket.gethostname()  # get local machine name
+        port = 8080  # Make sure it's within the > 1024 $$ <65535 range
+  
+        s = socket.socket()
+        s.connect((host, port))
+  
+        s.send(message.encode('utf-8'))
+
+        s.close()
+        return "Sent"
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic Primitives', NodeMeta.KEYWORDS: []})
+    def ServerListen():
+        host = socket.gethostname()   # get local machine name
+        port = 8080  # Make sure it's within the > 1024 $$ <65535 range
+  
+        s = socket.socket()
+        s.bind((host, port))
+  
+        s.listen(1)
+        client_socket, addr = s.accept()
+        data = client_socket.recv(1024).decode('utf-8')
+
+        client_socket.close()
+        return data
