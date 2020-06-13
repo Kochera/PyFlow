@@ -1,0 +1,26 @@
+from PyFlow.Core import NodeBase
+from PyFlow.Core.NodeBase import NodePinsSuggestionsHelper
+from PyFlow.Core.Common import *
+import hashlib
+from cryptography.fernet import Fernet
+
+def AESencrypt(key, raw):
+    f = Fernet(key)
+    rawb = bytes(raw, 'utf-8')
+    token = f.encrypt(rawb)
+    tokend = token.decode('utf-8')
+    return tokend
+
+def prepareNode(node):
+    node.setName("AESencrypt")
+    node.createInputPin(pinName="inExec", dataType='ExecPin', foo=node.processNode)
+    node.createOutputPin(pinName='outExec', dataType='ExecPin')
+    node.createInputPin(pinName='key', dataType='StringPin')
+    node.createInputPin(pinName='dataIn', dataType='StringPin')
+    node.createOutputPin(pinName='result', dataType='StringPin')
+    
+def compute(node):
+    var1 = node.getData("key")
+    var2 = node.getData("dataIn")
+    node.setData("result", AESencrypt(var1, var2))
+    node['outExec'].call()

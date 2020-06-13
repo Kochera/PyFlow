@@ -1,0 +1,19 @@
+from PyFlow.Core import NodeBase
+from PyFlow.Core.NodeBase import NodePinsSuggestionsHelper
+from PyFlow.Core.Common import *
+from cryptography.fernet import Fernet
+
+def KeyGen():
+    f = Fernet.generate_key()
+    return f.decode("utf-8")
+
+def prepareNode(node):
+    node.setName("KeyGen")
+    node.createInputPin(pinName="inExec", dataType='ExecPin', foo=node.processNode)
+    node.createOutputPin(pinName='outExec', dataType='ExecPin')
+    node.createOutputPin(pinName='result', dataType='StringPin')
+
+
+def compute(node):
+    node.setData("result", KeyGen())
+    node['outExec'].call()

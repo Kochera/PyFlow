@@ -1,0 +1,20 @@
+from PyFlow.Core import NodeBase
+from PyFlow.Core.NodeBase import NodePinsSuggestionsHelper
+from PyFlow.Core.Common import *
+import hashlib
+
+def SHA256(n):
+    return hashlib.sha256(n.encode()).hexdigest()
+
+def prepareNode(node):
+    node.setName("SHA256")
+    node.createInputPin(pinName="inExec", dataType='ExecPin', foo=node.processNode)
+    node.createOutputPin(pinName='outExec', dataType='ExecPin')
+    node.createInputPin(pinName='n', dataType='StringPin')
+    node.createOutputPin(pinName='result', dataType='StringPin')
+
+
+def compute(node):
+    var = node.getData("n")
+    node.setData("result", SHA256(var))
+    node['outExec'].call()
