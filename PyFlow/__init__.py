@@ -154,6 +154,23 @@ def getRawNodeInstance(nodeClassName, packageName=None, libName=None, **kwargs):
                             compoundNode._rawGraphJson = json.loads(jsonString)
                         return compoundNode
 
+    # try find exported compound nodes
+    cryptoNodesPath = os.path.join(packagePath, "Crypto")
+    if os.path.exists(cryptoNodesPath):
+        for path, dirs, files in os.walk(cryptoNodesPath):
+            for cryptoNodeFileName in files:
+                cryptoNodeName, _ = os.path.splitext(cryptoNodeFileName)
+                cryptoNodeFullPath = os.path.join(path, cryptoNodeFileName)
+                with open(cryptoNodeFullPath, 'r') as f:
+                    cryptoData = json.load(f)
+                    if cryptoData["name"] == nodeClassName:
+                        cryptoNode = getRawNodeInstance("compound", "PyFlowBase")
+                        cryptoNodeFullPath = os.path.join(path, cryptoNodeFileName)
+                        with open(cryptoNodeFullPath, "r") as f:
+                            jsonString = f.read()
+                            cryptoNode._rawGraphJson = json.loads(jsonString)
+                        return cryptoNode
+
 
 def INITIALIZE(additionalPackageLocations=[], software=""):
     from PyFlow.UI.Tool import REGISTER_TOOL

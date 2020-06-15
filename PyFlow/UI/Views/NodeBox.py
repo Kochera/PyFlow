@@ -275,6 +275,21 @@ class NodeBoxTreeWidget(QTreeWidget):
                                 category = "{0}|{1}|{2}".format(package_name, "Compounds", compoundCategoryName)
                                 self.insertNode(category, compoundNodeName, bCompoundNode=True)
 
+            cryptoNodesRoot = os.path.join(packagePath, "Crypto")
+            if os.path.exists(cryptoNodesRoot):
+                for path, dirs, files in os.walk(cryptoNodesRoot):
+                    for f in files:
+                        _, extension = os.path.splitext(f)
+                        if extension == ".compound":
+                            cryptoRoot = os.path.normpath(path)
+                            fullCryptoPath = os.path.join(cryptoRoot, f)
+                            with open(fullCryptoPath, 'r') as cryptoFile:
+                                data = json.load(cryptoFile)
+                                cryptoCategoryName = data["category"]
+                                cryptoNodeName = data["name"]
+                                category = "{0}|{1}|{2}".format(package_name, "Crypto", cryptoCategoryName)
+                                self.insertNode(category, cryptoNodeName, bCompoundNode=True)
+
             # expand all categories
             if dataType is not None:
                 for categoryItem in self.categoryPaths.values():
