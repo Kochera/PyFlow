@@ -11,6 +11,7 @@ import math
 from math import sqrt
 import random
 import sys
+from Cryptodome.Util import number
 
 def phi(n): 
       
@@ -234,7 +235,7 @@ class CryptographyLib(FunctionLibraryBase):
     @staticmethod
     @IMPLEMENT_NODE(returns=("IntPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def generateLargePrime(k=('IntPin', 0)):
-        return generate_prime_number(k)
+        return number.getPrime(k)
 
 
     @staticmethod
