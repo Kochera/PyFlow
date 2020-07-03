@@ -12,219 +12,55 @@ from math import sqrt
 import random
 import sys
 from Cryptodome.Util import number
+from decimal import Decimal
 
-def phi(n): 
-      
-    # Initialize result as n 
-    result = n;  
-  
+def prime(N):
+    q = number.getPrime(N)
+    return q
 
-    p = 2;  
-    while(p * p <= n): 
-          
-        # Check if p is a  
-        # prime factor. 
-        if (n % p == 0):  
-              
-            # If yes, then  
-            # update n and result 
-            while (n % p == 0): 
-                n = int(n / p); 
-            result -= int(result / p); 
-        p += 1; 
-  
-    if (n > 1): 
-        result -= int(result / n); 
-    return result; 
+def getq(q):
+    p = (2*q) + 1
+    return p
 
-
-
-  
-# Returns True if n is prime  
-def isPrime( n):  
-  
-    # Corner cases  
-    if (n <= 1): 
-        return False
-    if (n <= 3): 
-        return True
-  
-    # This is checked so that we can skip  
-    # middle five numbers in below loop  
-    if (n % 2 == 0 or n % 3 == 0): 
-        return False
-    i = 5
-    while(i * i <= n): 
-        if (n % i == 0 or n % (i + 2) == 0) : 
-            return False
-        i = i + 6
-  
-    return True
-  
-def power( x, y, p):  
-  
-    res = 1 # Initialize result  
-  
-    x = x % p # Update x if it is more  
-              # than or equal to p  
-  
-    while (y > 0):  
-  
-        # If y is odd, multiply x with result  
-        if (y & 1): 
-            res = (res * x) % p  
-  
-        # y must be even now  
-        y = y >> 1 # y = y/2  
-        x = (x * x) % p  
-  
-    return res  
-  
-# Utility function to store prime 
-# factors of a number  
-def findPrimefactors(s, n) : 
-  
-    # Print the number of 2s that divide n  
-    while (n % 2 == 0) : 
-        s.add(2)  
-        n = n // 2
-  
-    # n must be odd at this po. So we can   
-    # skip one element (Note i = i +2)  
-    for i in range(3, int(sqrt(n)), 2): 
-          
-        # While i divides n, print i and divide n  
-        while (n % i == 0) : 
-  
-            s.add(i)  
-            n = n // i  
-          
-    # This condition is to handle the case  
-    # when n is a prime number greater than 2  
-    if (n > 2) : 
-        s.add(n)  
-  
-# Function to find smallest primitive  
-# root of n  
-def findPrimitive( n) : 
-    s = set()  
-  
-    # Check if n is prime or not  
-    if (isPrime(n) == False):  
-        return -1
-  
-    # Find value of Euler Totient function  
-    # of n. Since n is a prime number, the  
-    # value of Euler Totient function is n-1  
-    # as there are n-1 relatively prime numbers. 
-    phi = n - 1
-  
-    # Find prime factors of phi and store in a set  
-    findPrimefactors(s, phi)  
-  
-    # Check for every number from 2 to phi  
-    for r in range(2, phi + 1):  
-  
-        # Iterate through all prime factors of phi.  
-        # and check if we found a power with value 1  
-        flag = False
-        for it in s:  
-  
-            # Check if r^((phi)/primefactors) 
-            # mod n is 1 or not  
-            if (power(r, phi // it, n) == 1):  
-  
-                flag = True
-                break
-              
-        # If there was no power with value 1.  
-        if (flag == False): 
-            return r  
-  
-    # If no primitive root found  
-    return -1
-  
-
-def is_prime(n, k=128):
-    """ Test if a number is prime
-        Args:
-            n -- int -- the number to test
-            k -- int -- the number of tests to do
-        return True if n is prime
+import random
+ 
+def rabin(n):
     """
-    # Test if n is not even.
-    # But care, 2 is prime !
-    if n == 2 or n == 3:
-        return True
-    if n <= 1 or n % 2 == 0:
+    Miller-Rabin primality test.
+ 
+    A return value of False means n is certainly not prime. A return value of
+    True means n is very likely a prime.
+    """
+    if n!=int(n):
         return False
-    # find r and s
+    n=int(n)
+    #Miller-Rabin test for prime
+    if n==0 or n==1 or n==4 or n==6 or n==8 or n==9:
+        return False
+ 
+    if n==2 or n==3 or n==5 or n==7:
+        return True
     s = 0
-    r = n - 1
-    while int(r) & 1 == 0:
-        s += 1
-        r //= 2
-    # do k tests
-    for _ in range(k):
-        a = random.randrange(2, n - 1)
-        x = pow(int(a), int(r), int(n))
-        if x != 1 and x != n - 1:
-            j = 1
-            while int(j) < int(s) and x != n - 1:
-                x = pow(int(x), 2, int(n))
-                if x == 1:
-                    return False
-                j += 1
-            if x != n - 1:
+    d = n-1
+    while d%2==0:
+        d>>=1
+        s+=1
+    assert(2**s * d == n-1)
+ 
+    def trial_composite(a):
+        if pow(a, d, n) == 1:
+            return False
+        for i in range(s):
+            if pow(a, 2**i * d, n) == n-1:
                 return False
+        return True  
+ 
+    for i in range(8):#number of trials 
+        a = random.randrange(2, n)
+        if trial_composite(a):
+            return False
+ 
     return True
-def generate_prime_candidate(length):
-    """ Generate an odd integer randomly
-        Args:
-            length -- int -- the length of the number to generate, in bits
-        return a integer
-    """
-    # generate random bits
-    p = random.getrandbits(length)
-    # apply a mask to set MSB and LSB to 1
-    p |= (1 << length - 1) | 1
-    return p
-def generate_prime_number(length):
-    """ Generate a prime
-        Args:
-            length -- int -- length of the prime to generate, in          bits
-        return a prime
-    """
-    p = 4
-    # keep generating while the primality test fail
-    while not is_prime(p, 128):
-        p = generate_prime_candidate(length)
-    return p
-
-def rabinMiller(n):
-    s = n-1
-    t = 0
-    while((int(s)&1) == 0):
-        s = s/2
-        t +=1
-    k = 0
-    while(k<128):
-        a = random.randrange(2,n-1)
-        #a^s is computationally infeasible.  we need a more intelligent approach
-        #v = (a**s)%n
-        #python's core math module can do modular exponentiation
-        v = pow(int(a),int(s),int(n)) #where values are (num,exp,mod)
-        if v != 1:
-            i=0
-            while v != (n-1):
-                if i == t-1:
-                    return False
-                else:
-                    i = i+1
-                    v = (v**2)%n
-        k+=2
-    return True
-
 
 class CryptographyLib(FunctionLibraryBase):
     '''Cryptographic Primitives'''
@@ -237,11 +73,47 @@ class CryptographyLib(FunctionLibraryBase):
     def generateLargePrime(k=('IntPin', 0)):
         return number.getPrime(k)
 
+    @staticmethod
+    @IMPLEMENT_NODE(returns=('IntPin', 0.0), meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def power(x=('IntPin', 0.0), y=('IntPin', 0.0), result=(REF, ('BoolPin', False))):
+        '''Return `x` raised to the power `y`.'''
+        try:
+            result(True)
+            return int(math.pow(x, y))
+        except:
+            result(False)
+            return -1
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def SHA256(inp=('StringPin', "")):
         return hashlib.sha256(inp.encode()).hexdigest()
+
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def findpq(n=('IntPin', 0)):
+        done = False
+        while not done:
+            p = prime(n)
+            q = getq(p)
+            if(rabin(q)):
+                done = True
+
+        stringVersion = str(p) + "," + str(q)
+        return stringVersion
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("IntPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def getItem(item=('StringPin', ""), index=('IntPin', 0)):
+        listItems= item.split(',')
+        return int(listItems[index])
+
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("IntPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def generateLargePrime(k=('IntPin', 0)):
+        return number.getPrime(k)
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("IntPin", 0, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
