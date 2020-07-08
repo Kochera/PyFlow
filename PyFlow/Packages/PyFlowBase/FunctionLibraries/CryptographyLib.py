@@ -84,6 +84,7 @@ class CryptographyLib(FunctionLibraryBase):
             result(False)
             return -1
 
+
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def SHA256(inp=('StringPin', "")):

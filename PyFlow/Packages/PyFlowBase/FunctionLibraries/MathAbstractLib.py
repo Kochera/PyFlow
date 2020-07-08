@@ -136,6 +136,13 @@ class MathAbstractLib(FunctionLibraryBase):
         return a % b
 
     @staticmethod
+    @IMPLEMENT_NODE(returns=("IntPin", 0, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["FloatPin", "IntPin"]}), meta={NodeMeta.CATEGORY: 'Math|Basic', NodeMeta.KEYWORDS: ["operator"]})
+    def modInt(a=("AnyPin", None, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["FloatPin", "IntPin"]}),
+               b=("AnyPin", None, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["FloatPin", "IntPin"]})):
+        """Modulo (A % B)."""
+        return a % b
+
+    @staticmethod
     @IMPLEMENT_NODE(returns=("AnyPin", None, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["FloatPin", "IntPin"]}), meta={NodeMeta.CATEGORY: 'Math|Basic', NodeMeta.KEYWORDS: []})
     def abs(inp=("AnyPin", None, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["FloatPin", "IntPin"]})):
         """Return the absolute value of a number."""
