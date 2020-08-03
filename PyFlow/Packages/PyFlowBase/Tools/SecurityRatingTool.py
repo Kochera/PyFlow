@@ -29,10 +29,10 @@ class SecurityRatingTool(DockTool):
 
     def onShow(self):
         super(SecurityRatingTool, self).onShow()
-        self.varsWidget = VariablesWidget(self.pyFlowInstance)
-        self.pyFlowInstance.fileBeenLoaded.connect(self.varsWidget.actualize)
-        self.verticalLayout.addWidget(self.varsWidget)
-        self.varsWidget.actualize()
+        #self.varsWidget = VariablesWidget(self.pyFlowInstance)
+        #self.pyFlowInstance.fileBeenLoaded.connect(self.varsWidget.actualize)
+        #self.verticalLayout.addWidget(self.varsWidget)
+        #self.varsWidget.actualize()
 
     def showEvent(self, event):
         super(SecurityRatingTool, self).showEvent(event)
