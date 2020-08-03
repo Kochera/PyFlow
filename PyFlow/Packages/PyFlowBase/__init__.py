@@ -86,6 +86,7 @@ from PyFlow.Packages.PyFlowBase.Tools.PropertiesTool import PropertiesTool
 from PyFlow.Packages.PyFlowBase.Tools.VariablesTool import VariablesTool
 from PyFlow.Packages.PyFlowBase.Tools.CompileTool import CompileTool
 from PyFlow.Packages.PyFlowBase.Tools.LoggerTool import LoggerTool
+from PyFlow.Packages.PyFlowBase.Tools.SecurityRatingTool import SecurityRatingTool
 
 from PyFlow.Packages.PyFlowBase.Exporters.PythonScriptExporter import PythonScriptExporter
 
@@ -184,6 +185,7 @@ _TOOLS[VariablesTool.__name__] = VariablesTool
 _TOOLS[NodeBoxTool.__name__] = NodeBoxTool
 _TOOLS[SearchResultsTool.__name__] = SearchResultsTool
 _TOOLS[LoggerTool.__name__] = LoggerTool
+_TOOLS[SecurityRatingTool.__name__] = SecurityRatingTool
 
 _EXPORTERS = OrderedDict()
 _EXPORTERS[PythonScriptExporter.__name__] = PythonScriptExporter
