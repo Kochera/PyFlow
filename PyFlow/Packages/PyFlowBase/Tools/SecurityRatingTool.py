@@ -1,43 +1,51 @@
 from nine import str
 from Qt import QtCore
 from Qt import QtGui
-from Qt.QtWidgets import QUndoView
-from Qt.QtWidgets import QWidget
-from Qt.QtWidgets import QVBoxLayout
+from Qt import QtWidgets
 
+from PyFlow.Packages.PyFlowBase.Tools import RESOURCES_DIR
 from PyFlow.UI.Tool.Tool import DockTool
-from PyFlow.UI.Views.VariablesWidget import VariablesWidget
+from PyFlow.UI.Widgets.PropertiesFramework import PropertiesWidget
 
 
 class SecurityRatingTool(DockTool):
-    """docstring for Variables tool."""
+    """docstring for Properties tool."""
     def __init__(self):
         super(SecurityRatingTool, self).__init__()
-        self.setMinimumSize(QtCore.QSize(200, 50))
-        self.varsWidget = None
-        self.content = QWidget()
-        self.content.setObjectName("SecurityRatingToolContent")
-        self.verticalLayout = QVBoxLayout(self.content)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.setWidget(self.content)
+        self.scrollArea = QtWidgets.QScrollArea(self)
+        self.scrollArea.setWidgetResizable(True)
+        self.setWidget(self.scrollArea)
+        self.propertiesWidget = PropertiesWidget()
+        self.scrollArea.setWidget(self.propertiesWidget)
+
+        self.propertiesWidget.searchBoxLayout.removeWidget(self.propertiesWidget.lockCheckBox)
+        self.addButton(self.propertiesWidget.lockCheckBox)
+        self.propertiesWidget.searchBoxLayout.removeWidget(self.propertiesWidget.tearOffCopy)
+        self.addButton(self.propertiesWidget.tearOffCopy)
+        # self.addButton(self.propertiesWidget.settingsButton)
+
+        self.setWindowTitle(self.uniqueName())
+        self.fillDelegate = None
+        self.propertiesWidget.spawnDuplicate.connect(self.onTearOffCopy)
+
+    def onTearOffCopy(self, *args, **kwargs):
+        instance = self.pyFlowInstance.invokeDockToolByName("PyFlowBase", self.name())
+        if self.fillDelegate is not None:
+            instance.assignPropertiesWidget(self.fillDelegate)
+        instance.setFloating(True)
+        instance.resize(self.size())
+
+    def clear(self):
+        self.propertiesWidget.clear()
+
+    def assignPropertiesWidget(self, propertiesFillDelegate):
+        self.fillDelegate = propertiesFillDelegate
+        if not self.propertiesWidget.isLocked():
+            propertiesFillDelegate(self.propertiesWidget)
 
     @staticmethod
     def isSingleton():
-        return True
-
-    def onShow(self):
-        super(SecurityRatingTool, self).onShow()
-        #self.varsWidget = VariablesWidget(self.pyFlowInstance)
-        #self.pyFlowInstance.fileBeenLoaded.connect(self.varsWidget.actualize)
-        #self.verticalLayout.addWidget(self.varsWidget)
-        #self.varsWidget.actualize()
-
-    def showEvent(self, event):
-        super(SecurityRatingTool, self).showEvent(event)
-        if self.varsWidget is not None:
-            self.varsWidget.actualize()
+        return False
 
     @staticmethod
     def toolTip():

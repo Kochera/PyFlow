@@ -51,6 +51,7 @@ from PyFlow.UI.ContextMenuGenerator import ContextMenuGenerator
 from PyFlow.UI.Widgets.PreferencesWindow import PreferencesWindow
 try:
     from PyFlow.Packages.PyFlowBase.Tools.PropertiesTool import PropertiesTool
+    from PyFlow.Packages.PyFlowBase.Tools.SecurityRatingTool import SecurityRatingTool
 except:
     pass
 from PyFlow.Wizards.PackageWizard import PackageWizard
@@ -247,13 +248,13 @@ class PyFlow(QMainWindow):
 
     def onRequestFillProperties(self, propertiesFillDelegate):
         for toolInstance in self._tools:
-            if isinstance(toolInstance, PropertiesTool):
+            if isinstance(toolInstance, PropertiesTool) or isinstance(toolInstance, SecurityRatingTool):
                 toolInstance.clear()
                 toolInstance.assignPropertiesWidget(propertiesFillDelegate)
 
     def onRequestClearProperties(self):
         for toolInstance in self._tools:
-            if isinstance(toolInstance, PropertiesTool):
+            if isinstance(toolInstance, PropertiesTool) or isinstance(toolInstance, SecurityRatingTool):
                 toolInstance.clear()
 
     def getToolbar(self):
