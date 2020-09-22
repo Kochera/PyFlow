@@ -51,6 +51,7 @@ from PyFlow.UI.ContextMenuGenerator import ContextMenuGenerator
 from PyFlow.UI.Widgets.PreferencesWindow import PreferencesWindow
 try:
     from PyFlow.Packages.PyFlowBase.Tools.PropertiesTool import PropertiesTool
+    from PyFlow.Packages.PyFlowBase.Tools.SecurityRatingTool import SecurityRatingTool
 except:
     pass
 from PyFlow.Wizards.PackageWizard import PackageWizard
@@ -251,10 +252,25 @@ class PyFlow(QMainWindow):
                 toolInstance.clear()
                 toolInstance.assignPropertiesWidget(propertiesFillDelegate)
 
+
+    def onRequestFillSecurity(self, securityFillDelegate):
+        for toolInstance in self._tools:
+            if isinstance(toolInstance, SecurityRatingTool):
+                toolInstance.clear()
+                toolInstance.assignSecurityRatingWidget(securityFillDelegate)
+
+
     def onRequestClearProperties(self):
         for toolInstance in self._tools:
             if isinstance(toolInstance, PropertiesTool):
                 toolInstance.clear()
+
+
+    def onRequestClearSecurity(self):
+        for toolInstance in self._tools:
+            if isinstance(toolInstance, SecurityRatingTool):
+                #toolInstance.clear()
+                pass
 
     def getToolbar(self):
         return self.toolBar
@@ -410,6 +426,7 @@ class PyFlow(QMainWindow):
         self.graphManager.get().clear(keepRoot=keepRoot)
         self.newFileExecuted.emit(keepRoot)
         self.onRequestClearProperties()
+        self.onRequestClearSecurity()
 
         self.startMainLoop()
 
