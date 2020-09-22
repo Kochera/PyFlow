@@ -5,7 +5,7 @@ from Qt import QtWidgets
 
 from PyFlow.Packages.PyFlowBase.Tools import RESOURCES_DIR
 from PyFlow.UI.Tool.Tool import DockTool
-from PyFlow.UI.Widgets.PropertiesFramework import PropertiesWidget
+from PyFlow.UI.Widgets.SecurityRatingFramework import SecurityRatingWidget
 
 
 class SecurityRatingTool(DockTool):
@@ -15,33 +15,33 @@ class SecurityRatingTool(DockTool):
         self.scrollArea = QtWidgets.QScrollArea(self)
         self.scrollArea.setWidgetResizable(True)
         self.setWidget(self.scrollArea)
-        self.propertiesWidget = PropertiesWidget()
-        self.scrollArea.setWidget(self.propertiesWidget)
+        self.securityWidget = SecurityRatingWidget()
+        self.scrollArea.setWidget(self.securityWidget)
 
-        self.propertiesWidget.searchBoxLayout.removeWidget(self.propertiesWidget.lockCheckBox)
-        self.addButton(self.propertiesWidget.lockCheckBox)
-        self.propertiesWidget.searchBoxLayout.removeWidget(self.propertiesWidget.tearOffCopy)
-        self.addButton(self.propertiesWidget.tearOffCopy)
-        # self.addButton(self.propertiesWidget.settingsButton)
+        self.securityWidget.searchBoxLayout.removeWidget(self.securityWidget.lockCheckBox)
+        self.addButton(self.securityWidget.lockCheckBox)
+        self.securityWidget.searchBoxLayout.removeWidget(self.securityWidget.tearOffCopy)
+        self.addButton(self.securityWidget.tearOffCopy)
+        # self.addButton(self.securityWidget.settingsButton)
 
         self.setWindowTitle(self.uniqueName())
         self.fillDelegate = None
-        self.propertiesWidget.spawnDuplicate.connect(self.onTearOffCopy)
+        self.securityWidget.spawnDuplicate.connect(self.onTearOffCopy)
 
     def onTearOffCopy(self, *args, **kwargs):
         instance = self.pyFlowInstance.invokeDockToolByName("PyFlowBase", self.name())
         if self.fillDelegate is not None:
-            instance.assignPropertiesWidget(self.fillDelegate)
+            instance.assignSecurityRatingWidget(self.fillDelegate)
         instance.setFloating(True)
         instance.resize(self.size())
 
     def clear(self):
-        self.propertiesWidget.clear()
+        self.securityWidget.clear()
 
-    def assignPropertiesWidget(self, propertiesFillDelegate):
-        self.fillDelegate = propertiesFillDelegate
-        if not self.propertiesWidget.isLocked():
-            propertiesFillDelegate(self.propertiesWidget)
+    def assignSecurityRatingWidget(self, securityFillDelegate):
+        self.fillDelegate = securityFillDelegate
+        if not self.securityWidget.isLocked():
+            securityFillDelegate(self.securityWidget)
 
     @staticmethod
     def isSingleton():

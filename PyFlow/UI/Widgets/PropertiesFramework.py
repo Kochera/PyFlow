@@ -16,6 +16,7 @@
 from nine import str
 from PyFlow.UI.Canvas.UICommon import clearLayout
 from PyFlow.UI.Widgets.EditPropertiesWidget import EditPropertiesTreeWidget
+from PyFlow.UI.Widgets.EditSecurityRatingWidget import EditSecurityRatingTreeWidget
 from Qt import QtWidgets
 from Qt import QtCore, QtGui
 
@@ -417,6 +418,7 @@ class PropertiesWidget(QtWidgets.QWidget):
         d.layout().addWidget(tree)
         d.exec_()
         newOrder = tree.model_to_dict()
+
 
 
 if __name__ == "__main__":

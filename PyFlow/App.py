@@ -248,14 +248,29 @@ class PyFlow(QMainWindow):
 
     def onRequestFillProperties(self, propertiesFillDelegate):
         for toolInstance in self._tools:
-            if isinstance(toolInstance, PropertiesTool) or isinstance(toolInstance, SecurityRatingTool):
+            if isinstance(toolInstance, PropertiesTool):
                 toolInstance.clear()
                 toolInstance.assignPropertiesWidget(propertiesFillDelegate)
 
+
+    def onRequestFillSecurity(self, securityFillDelegate):
+        for toolInstance in self._tools:
+            if isinstance(toolInstance, SecurityRatingTool):
+                toolInstance.clear()
+                toolInstance.assignSecurityRatingWidget(securityFillDelegate)
+
+
     def onRequestClearProperties(self):
         for toolInstance in self._tools:
-            if isinstance(toolInstance, PropertiesTool) or isinstance(toolInstance, SecurityRatingTool):
+            if isinstance(toolInstance, PropertiesTool):
                 toolInstance.clear()
+
+
+    def onRequestClearSecurity(self):
+        for toolInstance in self._tools:
+            if isinstance(toolInstance, SecurityRatingTool):
+                #toolInstance.clear()
+                pass
 
     def getToolbar(self):
         return self.toolBar
@@ -411,6 +426,7 @@ class PyFlow(QMainWindow):
         self.graphManager.get().clear(keepRoot=keepRoot)
         self.newFileExecuted.emit(keepRoot)
         self.onRequestClearProperties()
+        self.onRequestClearSecurity()
 
         self.startMainLoop()
 

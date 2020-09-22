@@ -44,6 +44,7 @@ from PyFlow.UI.Canvas.UIPinBase import UIPinBase, PinGroup
 from PyFlow.UI.Views.NodeBox import NodesBox
 from PyFlow.UI.Canvas.AutoPanController import AutoPanController
 from PyFlow.UI.UIInterfaces import IPropertiesViewSupport
+from PyFlow.UI.UIInterfaces import ISecurityRatingViewSupport
 from PyFlow.Core.PinBase import PinBase
 from PyFlow.Core.NodeBase import NodeBase
 from PyFlow.Input import InputManager, InputAction, InputActionType
@@ -92,6 +93,10 @@ class BlueprintCanvas(CanvasBase):
 
     requestFillProperties = QtCore.Signal(object)
     requestClearProperties = QtCore.Signal()
+
+    requestFillSecurity = QtCore.Signal(object)
+    requestClearSecurity = QtCore.Signal()
+
 
     # argument is a list of ui nodes
     requestShowSearchResults = QtCore.Signal(object)
@@ -423,6 +428,7 @@ class BlueprintCanvas(CanvasBase):
             for node in selectedNodes:
                 node._rawNode.kill()
             self.requestClearProperties.emit()
+            self.requestClearSecurity.emit()
 
     def keyPressEvent(self, event):
         modifiers = event.modifiers()
@@ -1307,8 +1313,10 @@ class BlueprintCanvas(CanvasBase):
                     return
 
                 self.tryFillPropertiesView(pressedNode)
+                self.tryFillSecurityRatingView(pressedNode)
         elif event.button() == QtCore.Qt.LeftButton:
             self.requestClearProperties.emit()
+            self.requestClearSecurity.emit()
         self.resizing = False
         self.updateReroutes(event, False)
 
@@ -1318,6 +1326,10 @@ class BlueprintCanvas(CanvasBase):
     def tryFillPropertiesView(self, obj):
         if isinstance(obj, IPropertiesViewSupport):
             self.requestFillProperties.emit(obj.createPropertiesWidget)
+
+    def tryFillSecurityRatingView(self, obj):
+        if isinstance(obj, ISecurityRatingViewSupport):
+            self.requestFillSecurity.emit(obj.createSecurityRatingWidget)
 
     def stepToCompound(self, compoundNodeName):
         self.graphManager.selectGraphByName(compoundNodeName)
@@ -1746,6 +1758,14 @@ class BlueprintCanvasWidget(QWidget):
         self.compoundPropertiesLayout.setContentsMargins(1, 1, 1, 1)
         self.mainLayout.addWidget(self.compoundPropertiesWidget)
 
+        self.compoundSecurityWidget = QWidget()
+        self.compoundSecurityWidget.setContentsMargins(1, 1, 1, 1)
+        self.compoundSecurityWidget.setObjectName("compoundSecurityWidget")
+        self.compoundSecurityLayout = QHBoxLayout(self.compoundSecurityWidget)
+        self.compoundSecurityLayout.setSpacing(1)
+        self.compoundSecurityLayout.setContentsMargins(1, 1, 1, 1)
+        self.mainLayout.addWidget(self.compoundSecurityWidget)
+
         self.leCompoundName = QLineEdit()
         self.leCompoundName.setObjectName("leCompoundName")
         self.leCompoundCategory = QLineEdit()
@@ -1755,11 +1775,15 @@ class BlueprintCanvasWidget(QWidget):
         compoundNameLabel.setObjectName("compoundNameLabel")
         self.compoundPropertiesLayout.addWidget(compoundNameLabel)
         self.compoundPropertiesLayout.addWidget(self.leCompoundName)
+        self.compoundSecurityLayout.addWidget(compoundNameLabel)
+        self.compoundSecurityLayout.addWidget(self.leCompoundName)
 
         compoundCategoryLabel = QLabel("Category:")
         compoundCategoryLabel.setObjectName("compoundCategoryLabel")
         self.compoundPropertiesLayout.addWidget(compoundCategoryLabel)
         self.compoundPropertiesLayout.addWidget(self.leCompoundCategory)
+        self.compoundSecurityLayout.addWidget(compoundCategoryLabel)
+        self.compoundSecurityLayout.addWidget(self.leCompoundCategory)
 
         self.canvas = BlueprintCanvas(graphManager, pyFlowInstance)
         self.mainLayout.addWidget(self.canvas)
@@ -1768,6 +1792,9 @@ class BlueprintCanvasWidget(QWidget):
 
         self.canvas.requestFillProperties.connect(self.pyFlowInstance.onRequestFillProperties)
         self.canvas.requestClearProperties.connect(self.pyFlowInstance.onRequestClearProperties)
+
+        self.canvas.requestFillSecurity.connect(self.pyFlowInstance.onRequestFillSecurity)
+        self.canvas.requestClearSecurity.connect(self.pyFlowInstance.onRequestClearSecurity)
 
         rxLettersAndNumbers = QtCore.QRegExp('^[a-zA-Z0-9]*$')
         nameValidator = QtGui.QRegExpValidator(rxLettersAndNumbers, self.leCompoundName)
@@ -1813,10 +1840,12 @@ class BlueprintCanvasWidget(QWidget):
     def setCompoundPropertiesWidgetVisible(self, bVisible):
         if bVisible:
             self.compoundPropertiesWidget.show()
+            self.compoundSecurityWidget.show()
             self.leCompoundName.setText(self.manager.activeGraph().name)
             self.leCompoundCategory.setText(self.manager.activeGraph().category)
         else:
             self.compoundPropertiesWidget.hide()
+            self.compoundSecurityWidget.hide()
 
     def onActiveCompoundNameAccepted(self):
         newName = self.manager.getUniqName(self.leCompoundName.text())

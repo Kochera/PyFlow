@@ -33,6 +33,13 @@ class IPropertiesViewSupport(object):
     def createPropertiesWidget(self, propertiesWidget):
         pass
 
+class ISecurityRatingViewSupport(object):
+    """docstring for IPropertiesViewSupport."""
+    def __init__(self):
+        super(ISecurityRatingViewSupport, self).__init__()
+
+    def createSecurityRatingWidget(self, SecurityRatingWidget):
+        pass
 
 class IDataExporter(object):
     """Data exporter/importer

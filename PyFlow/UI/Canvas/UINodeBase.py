@@ -32,6 +32,7 @@ from PyFlow.UI.Widgets.InputWidgets import createInputWidget
 from PyFlow.UI.Canvas.Painters import NodePainter
 from PyFlow.UI.Widgets.PropertiesFramework import CollapsibleFormWidget
 from PyFlow.UI.UIInterfaces import IPropertiesViewSupport
+from PyFlow.UI.UIInterfaces import ISecurityRatingViewSupport
 from PyFlow.UI.UIInterfaces import IUINode
 from PyFlow.UI.Canvas.NodeActionButton import NodeActionButtonBase
 from PyFlow.UI.Utils.stylesheet import Colors
@@ -235,7 +236,7 @@ class NodeName(QGraphicsWidget):
         self.labelItem.setGeometry(rect)
 
 
-class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, IUINode):
+class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, ISecurityRatingViewSupport, IUINode):
     """
     Default node description
     """
@@ -407,6 +408,8 @@ class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, IUINode):
         self.actionRefresh.triggered.connect(self.onRefresh)
         self.actionToggleExposeWidgetsToCompound = self._menu.addAction("Expose properties")
         self.actionToggleExposeWidgetsToCompound.triggered.connect(self.onToggleExposeProperties)
+        self.actionToggleExposeWidgetsToCompound = self._menu.addAction("Expose Security Rating")
+        self.actionToggleExposeWidgetsToCompound.triggered.connect(self.onToggleExposeSecurity)
         self.actionCopyPath = self._menu.addAction("Copy path")
         self.actionCopyPath.triggered.connect(self.onCopyPathToClipboard)
         self._rawNode.computed.connect(self.onComputed)
@@ -444,7 +447,15 @@ class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, IUINode):
         self.setExposePropertiesToCompound(not self.bExposeInputsToCompound)
         EditorHistory().saveState("{} exposing widgets".format("Start" if self.bExposeInputsToCompound else "Stop"), modify=True)
 
+    def onToggleExposeSecurity(self):
+        self.setExposeSecurityToCompound(not self.bExposeInputsToCompound)
+        EditorHistory().saveState("{} exposing widgets".format("Start" if self.bExposeInputsToCompound else "Stop"), modify=True)
+
     def setExposePropertiesToCompound(self, bExpose):
+        self.bExposeInputsToCompound = bExpose
+        self.update()
+
+    def setExposeSecurityToCompound(self, bExpose):
         self.bExposeInputsToCompound = bExpose
         self.update()
 
@@ -680,6 +691,7 @@ class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, IUINode):
             self.setName(newName)
             self.setHeaderHtml(newName)
             self.canvasRef().requestFillProperties.emit(self.createPropertiesWidget)
+            self.canvasRef().requestFillSecurity.emit(self.createSecurityRatingWidget)
 
     def onNodeErrorOccurred(self, *args, **kwargs):
         # change node ui to invalid
@@ -1344,6 +1356,50 @@ class UINodeBase(QGraphicsWidget, IPropertiesViewSupport, IUINode):
         doc.setHtml(rst2html(self.description()))
         Info.addWidget(widget=doc)
         propertiesWidget.addWidget(Info)
+
+    def createSecurityRatingWidget(self, SecurityRatingWidget):
+        baseCategory = CollapsibleFormWidget(headName="Base")
+
+        #le_name = QLineEdit(self.getName())
+        #le_name.setReadOnly(True)
+        #baseCategory.addWidget("Name", le_name)
+
+        leUid = QLineEdit(str(self._rawNode.graph().name))
+        leUid.setReadOnly(True)
+        baseCategory.addWidget("Owning graph", leUid)
+
+        leUNodes = QLineEdit(str(self._rawNode.graph()._nodes))
+        A = 0
+        In = 0
+        C = 0
+        for i in self._rawNode.graph().getNodesList():
+            leName = QLineEdit(str(i.getName()))
+            leName.setReadOnly(True)
+            #baseCategory.addWidget(str(i.getName()), leName)
+            if "DHClient" in str(i.getName()):
+                A += 1
+            if  "AES_Encrypt" in str(i.getName()):
+                C +=1
+            if  "SHA256" in str(i.getName()):
+                In +=1
+
+        leIn = QLineEdit(str(In))
+        leA = QLineEdit(str(A))
+        leC = QLineEdit(str(C))
+        leIn.setReadOnly(True)
+        baseCategory.addWidget("Integrity", leIn)
+        leA.setReadOnly(True)
+        baseCategory.addWidget("Authentication", leA)
+        leC.setReadOnly(True)
+        baseCategory.addWidget("Confidentiality", leC)
+
+        SecurityRatingWidget.addWidget(baseCategory)
+
+        
+        doc = QTextBrowser()
+        doc.setOpenExternalLinks(True)
+        doc.setHtml(rst2html(self.description()))
+
 
     def createInputWidgets(self, inputsCategory, inGroup=None, pins=True):
         # inputs
