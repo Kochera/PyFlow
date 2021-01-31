@@ -16,70 +16,21 @@ from decimal import Decimal
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding, load_der_public_key, load_der_private_key, PrivateFormat
+from codecs import encode
+from cryptography.hazmat.primitives.ciphers.aead import AESCCM
+import os
 
-# def prime(N):
-#     q = number.getPrime(N)
-#     return q
+def revert_to_bytes(string_item):
+    string_item = string_item[2:len(string_item)-1]
 
-# def getq(q):
-#     p = (2*q) + 1
-#     return p
+    string_item = bytes(string_item, encoding='utf-8')
+        
+    string_item=string_item.decode('unicode-escape').encode('ISO-8859-1')
 
-# import random
- 
-# def rabin(n):
-#     """
-#     Miller-Rabin primality test.
- 
-#     A return value of False means n is certainly not prime. A return value of
-#     True means n is very likely a prime.
-#     """
-#     if n!=int(n):
-#         return False
-#     n=int(n)
-#     #Miller-Rabin test for prime
-#     if n==0 or n==1 or n==4 or n==6 or n==8 or n==9:
-#         return False
- 
-#     if n==2 or n==3 or n==5 or n==7:
-#         return True
-#     s = 0
-#     d = n-1
-#     while d%2==0:
-#         d>>=1
-#         s+=1
-#     assert(2**s * d == n-1)
- 
-#     def trial_composite(a):
-#         if pow(a, d, n) == 1:
-#             return False
-#         for i in range(s):
-#             if pow(a, 2**i * d, n) == n-1:
-#                 return False
-#         return True  
- 
-#     for i in range(8):#number of trials 
-#         a = random.randrange(2, n)
-#         if trial_composite(a):
-#             return False
- 
-#     return True
+    return string_item
+
 
 def get_parameters():
-	# p = 0
-	# g = 0 
-	# file = ''
-	# try:
-	# 	file = open("../../../parameters.txt", "r")
-	# 	parameters = file.read()
-	# 	file.close()
-	# 	parameters= parameters.split()
-	# 	p = parameters[0]
-	# 	g = parameters[1]
-
-	# except:
-	# 	print("file not found")
-
 	p = 0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE45B3DC2007CB8A163BF0598DA48361C55D39A69163FA8FD24CF5F83655D23DCA3AD961C62F356208552BB9ED529077096966D670C354E4ABC9804F1746C08CA18217C32905E462E36CE3BE39E772C180E86039B2783A2EC07A28FB5C55DF06F4C52C9DE2BCBF6955817183995497CEA956AE515D2261898FA051015728E5A8AACAA68FFFFFFFFFFFFFFFF
 
 
@@ -99,8 +50,12 @@ def generate_keys(p,g):
 	return private_key,public_key
 
 
+
+
 p,g = get_parameters()
 private_key, public_key = generate_keys(p,g)
+
+default_AES = str(AESCCM.generate_key(bit_length=128))
 
 
 
@@ -174,27 +129,37 @@ class CryptographyLib(FunctionLibraryBase):
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def AES_Encrypt(key=('StringPin', ""), dataIn=('StringPin', "")):
-        f = Fernet(key)
-        rawb = bytes(dataIn, 'utf-8')
-        token = f.encrypt(rawb)
-        tokend = token.decode('utf-8')
-        return tokend
+    def AESccm_Encrypt(key=('StringPin', default_AES), dataIn=('StringPin', "")):
+        key = revert_to_bytes(key)
+        aad = b"Associated Data"
+
+        aesccm = AESCCM(key)
+        nonce = os.urandom(13)
+        data_bytes = bytes(dataIn, 'utf-8')
+        ct = aesccm.encrypt(nonce, data_bytes, aad)
+        
+        return str(ct)+","+str(nonce)+","+str(aad)
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def AES_Decrypt(key=('StringPin', ""), token=('StringPin', "")):
-        f = Fernet(key)
-        tokenb = token.encode('utf-8')
-        raw = f.decrypt(tokenb)
-        rawd = raw.decode('utf-8')
-        return rawd
+    def AESccm_Decrypt(key=('StringPin', default_AES), token=('StringPin', "")):
+        key = revert_to_bytes(key)
+
+        aesccm = AESCCM(key)
+        list_token = token.split(',')
+        ct = revert_to_bytes(list_token[0])
+        nonce = revert_to_bytes(list_token[1])
+        aad = revert_to_bytes(list_token[2])
+
+
+
+        return str(aesccm.decrypt(nonce,ct,aad))
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def ClientSend(message=('StringPin', ""), host=('StringPin', socket.gethostname())):
         #host = socket.gethostname()  # get local machine name
-        # port = 8080  # Make sure it's within the > 1024 $$ <65535 range
+        port = 8080  # Make sure it's within the > 1024 $$ <65535 range
   		
         s = socket.socket()
         s.connect((host, port))
@@ -214,7 +179,7 @@ class CryptographyLib(FunctionLibraryBase):
   
         s.listen(1)
         client_socket, addr = s.accept()
-        data = client_socket.recv(1024).decode('utf-8')
+        data = client_socket.recv(4096).decode('utf-8')
 
         client_socket.close()
         return data
@@ -223,34 +188,22 @@ class CryptographyLib(FunctionLibraryBase):
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def PublicKey():
-
     	return public_key
-        #host = socket.gethostname()  # get local machine name
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def DiffieHellman(sent_public_key=('StringPin', "")):
+    def Exchange(sent_public_key=('StringPin', "")):
+        key= revert_to_bytes(sent_public_key)
 
-    	#print("printing the public key: ", sent_public_key)
+        #sent_public_key = sent_public_key[2:len(sent_public_key)-1]
 
-    	sent_public_key = sent_public_key[2:len(sent_public_key)-1]
-    	key = bytes(sent_public_key, encoding='utf-8')
-
-    	key=key.decode('unicode-escape').encode('ISO-8859-1')
-
+        #key = bytes(sent_public_key, encoding='utf-8')
+        
+        #key=key.decode('unicode-escape').encode('ISO-8859-1')
 
 
-    	#print("helloooooo")
+        pub = load_der_public_key(key, default_backend())
 
-    	pub = load_der_public_key(key, default_backend())
+        shared_key = private_key.exchange(pub)
 
-    	print("printing the key after loading it: ", pub)
-    	print(pub)
-    	shared_key = private_key.exchange(pub)
-
-    	print("checking this out mofo")
-
-    	print(shared_key)
-
-    	return shared_key
-        #host = socket.gethostname()  # get local machine name
+        return shared_key

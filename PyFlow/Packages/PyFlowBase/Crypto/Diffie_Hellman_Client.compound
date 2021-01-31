@@ -1,0 +1,1618 @@
+{
+    "name": "Diffie_Hellman_Client",
+    "category": "Diffie-Hellman",
+    "vars": [],
+    "nodes": [
+        {
+            "package": "PyFlowBase",
+            "lib": "DefaultLib",
+            "type": "makeString",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "makeString8",
+            "uuid": "c137133d-0a37-4bee-a449-41e3ab652cbb",
+            "inputs": [
+                {
+                    "name": "s",
+                    "package": "PyFlowBase",
+                    "fullName": "makeString8_s",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"Host\"",
+                    "uuid": "e18f8b6e-04af-45c8-a550-96c6c09b912e",
+                    "linkedTo": [],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "s",
+                        "wires": {}
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "makeString8_out",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "79afac42-fd27-4350-8ac7-3e99840c7dd6",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "makeString8",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 2,
+                            "lhsNodeUid": "c137133d-0a37-4bee-a449-41e3ab652cbb",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "79afac42-fd27-4350-8ac7-3e99840c7dd6",
+                                "destinationUUID": "af37fe4a-ad1f-4a7f-be16-4af8e8f46dd2",
+                                "sourceName": "makeString8_out",
+                                "destinationName": "setGlobalVar9_name",
+                                "uuid": "5ee53fcc-9ff0-4a29-84b1-e50684a916a5",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "makeString8"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">makeString8</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -1276.317965025281,
+            "y": -106.83098762231656
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "DefaultLib",
+            "type": "setGlobalVar",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "setGlobalVar9",
+            "uuid": "738dacce-e658-4256-b5fa-51899e9ce5c1",
+            "inputs": [
+                {
+                    "name": "value",
+                    "package": "PyFlowBase",
+                    "fullName": "setGlobalVar9_value",
+                    "dataType": "AnyPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "55a2ff75-a638-43d1-b465-2cc40731fc7e",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Host",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 3,
+                            "lhsNodeUid": "f8cd9ab6-b91a-48f6-ad91-10d33482de0d",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 3,
+                    "options": [
+                        1,
+                        2,
+                        16,
+                        256,
+                        512
+                    ],
+                    "structure": 3,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "value",
+                        "wires": {
+                            "3": {
+                                "sourceUUID": "30f3be34-dee6-4ef9-b114-bab880bc0c21",
+                                "destinationUUID": "55a2ff75-a638-43d1-b465-2cc40731fc7e",
+                                "sourceName": "Host_in1",
+                                "destinationName": "setGlobalVar9_value",
+                                "uuid": "91121389-b68e-44f2-ae3d-bf0b7628411b",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    },
+                    "currDataType": "StringPin"
+                },
+                {
+                    "name": "inExec",
+                    "package": "PyFlowBase",
+                    "fullName": "setGlobalVar9_inExec",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "a91ff691-155f-4649-8ae2-ee29ccab2f31",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "inExec",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 1,
+                            "lhsNodeUid": "e48293ce-3ed2-49df-9ea4-38180c19ccf6",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "inExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "948eade2-359d-4e6c-a7ac-c2375a32293e",
+                                "destinationUUID": "a91ff691-155f-4649-8ae2-ee29ccab2f31",
+                                "sourceName": "inExec_in",
+                                "destinationName": "setGlobalVar9_inExec",
+                                "uuid": "2ac93bc9-3d7d-437a-820f-6c5987171009",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "name",
+                    "package": "PyFlowBase",
+                    "fullName": "setGlobalVar9_name",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "af37fe4a-ad1f-4a7f-be16-4af8e8f46dd2",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "makeString8",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 2,
+                            "lhsNodeUid": "c137133d-0a37-4bee-a449-41e3ab652cbb",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "name",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "79afac42-fd27-4350-8ac7-3e99840c7dd6",
+                                "destinationUUID": "af37fe4a-ad1f-4a7f-be16-4af8e8f46dd2",
+                                "sourceName": "makeString8_out",
+                                "destinationName": "setGlobalVar9_name",
+                                "uuid": "5ee53fcc-9ff0-4a29-84b1-e50684a916a5",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "outExec",
+                    "package": "PyFlowBase",
+                    "fullName": "setGlobalVar9_outExec",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "2a3a828c-a491-4798-ab67-c4756053f073",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "setGlobalVar9",
+                            "outPinId": 1,
+                            "rhsNodeName": "PublicKey",
+                            "inPinId": 1,
+                            "lhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1",
+                            "rhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "outExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "2a3a828c-a491-4798-ab67-c4756053f073",
+                                "destinationUUID": "ae1ed564-001f-4956-b1eb-109c1544bb98",
+                                "sourceName": "setGlobalVar9_outExec",
+                                "destinationName": "PublicKey_inExec",
+                                "uuid": "b714be60-ae78-4069-b522-f1218442359f",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "setGlobalVar9"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">setGlobalVar9</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -1035.944377284607,
+            "y": -151.77140544880982
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": null,
+            "type": "graphInputs",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "inExec",
+            "uuid": "e48293ce-3ed2-49df-9ea4-38180c19ccf6",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "in",
+                    "package": "PyFlowBase",
+                    "fullName": "inExec_in",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "948eade2-359d-4e6c-a7ac-c2375a32293e",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "inExec",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 1,
+                            "lhsNodeUid": "e48293ce-3ed2-49df-9ea4-38180c19ccf6",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        32,
+                        64,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "in",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "948eade2-359d-4e6c-a7ac-c2375a32293e",
+                                "destinationUUID": "a91ff691-155f-4649-8ae2-ee29ccab2f31",
+                                "sourceName": "inExec_in",
+                                "destinationName": "setGlobalVar9_inExec",
+                                "uuid": "2ac93bc9-3d7d-437a-820f-6c5987171009",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "inExec"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">inExec</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -1249.317965025281,
+            "y": -219.83098762231646
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": null,
+            "type": "graphInputs",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "Host",
+            "uuid": "f8cd9ab6-b91a-48f6-ad91-10d33482de0d",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "in1",
+                    "package": "PyFlowBase",
+                    "fullName": "Host_in1",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "30f3be34-dee6-4ef9-b114-bab880bc0c21",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Host",
+                            "outPinId": 1,
+                            "rhsNodeName": "setGlobalVar9",
+                            "inPinId": 3,
+                            "lhsNodeUid": "f8cd9ab6-b91a-48f6-ad91-10d33482de0d",
+                            "rhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        1,
+                        32,
+                        64,
+                        256
+                    ],
+                    "structure": 3,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "in1",
+                        "wires": {
+                            "3": {
+                                "sourceUUID": "30f3be34-dee6-4ef9-b114-bab880bc0c21",
+                                "destinationUUID": "55a2ff75-a638-43d1-b465-2cc40731fc7e",
+                                "sourceName": "Host_in1",
+                                "destinationName": "setGlobalVar9_value",
+                                "uuid": "91121389-b68e-44f2-ae3d-bf0b7628411b",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "Host"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Host</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -1247.317965025281,
+            "y": 4.1690123776839005
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "DefaultLib",
+            "type": "getGlobalVar",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "getGlobalVar23",
+            "uuid": "506eb72e-a2d8-4464-8cd0-8b44c02ed05b",
+            "inputs": [
+                {
+                    "name": "name",
+                    "package": "PyFlowBase",
+                    "fullName": "getGlobalVar23_name",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"Host\"",
+                    "uuid": "a0143b9c-2823-48db-945d-abba49fdcbb0",
+                    "linkedTo": [],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "name",
+                        "wires": {}
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "getGlobalVar23_out",
+                    "dataType": "AnyPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "8e942a50-d26a-4b5f-8a32-3e012c53b330",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "getGlobalVar23",
+                            "outPinId": 1,
+                            "rhsNodeName": "ServerListen",
+                            "inPinId": 2,
+                            "lhsNodeUid": "506eb72e-a2d8-4464-8cd0-8b44c02ed05b",
+                            "rhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc"
+                        },
+                        {
+                            "lhsNodeName": "getGlobalVar23",
+                            "outPinId": 1,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 3,
+                            "lhsNodeUid": "506eb72e-a2d8-4464-8cd0-8b44c02ed05b",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        16,
+                        256,
+                        512
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "3": {
+                                "sourceUUID": "8e942a50-d26a-4b5f-8a32-3e012c53b330",
+                                "destinationUUID": "86086b3d-2238-4661-9067-21bd4bf79dec",
+                                "sourceName": "getGlobalVar23_out",
+                                "destinationName": "ClientSend_host",
+                                "uuid": "8e18aff5-ef1b-471a-8e92-3231d2471c9a",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            },
+                            "2": {
+                                "sourceUUID": "8e942a50-d26a-4b5f-8a32-3e012c53b330",
+                                "destinationUUID": "5ab70d52-2ffb-4447-bedd-938fd98ff86f",
+                                "sourceName": "getGlobalVar23_out",
+                                "destinationName": "ServerListen_host",
+                                "uuid": "18182d52-3332-4930-b554-2589b0ab47ad",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    },
+                    "currDataType": "StringPin"
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "getGlobalVar23"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">getGlobalVar23</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -630.9111373482344,
+            "y": 9.11480592302864
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": null,
+            "type": "graphOutputs",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "outExec",
+            "uuid": "239ecce5-0e6f-4a61-bd67-17650ad73d61",
+            "inputs": [
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "outExec_out",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "c1799f30-417e-45c5-81eb-bec28437dc65",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Exchange",
+                            "outPinId": 1,
+                            "rhsNodeName": "outExec",
+                            "inPinId": 1,
+                            "lhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8",
+                            "rhsNodeUid": "239ecce5-0e6f-4a61-bd67-17650ad73d61"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        32,
+                        64,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "47c15c8c-d391-41fa-996a-1699a5360e34",
+                                "destinationUUID": "c1799f30-417e-45c5-81eb-bec28437dc65",
+                                "sourceName": "Exchange_outExec",
+                                "destinationName": "outExec_out",
+                                "uuid": "2035d6e3-9590-4423-bd49-070d2d1ab735",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [],
+            "meta": {
+                "var": {},
+                "label": "outExec"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">outExec</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": 695.5700377364011,
+            "y": -41.735566674456905
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": null,
+            "type": "graphOutputs",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "SharedKey",
+            "uuid": "5c33975e-9a3f-4afb-8e94-f67241f5eca2",
+            "inputs": [
+                {
+                    "name": "out2",
+                    "package": "PyFlowBase",
+                    "fullName": "SharedKey_out2",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "ff41d135-b725-4be8-9017-31e649fa1067",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Exchange",
+                            "outPinId": 2,
+                            "rhsNodeName": "SharedKey",
+                            "inPinId": 1,
+                            "lhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8",
+                            "rhsNodeUid": "5c33975e-9a3f-4afb-8e94-f67241f5eca2"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        32,
+                        64,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out2",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "149318cc-bb24-43d8-a956-e041af8e1fcb",
+                                "destinationUUID": "ff41d135-b725-4be8-9017-31e649fa1067",
+                                "sourceName": "Exchange_out",
+                                "destinationName": "SharedKey_out2",
+                                "uuid": "9c86cac6-c742-4dcf-878e-47fe98e0ef2c",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [],
+            "meta": {
+                "var": {},
+                "label": "SharedKey"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">SharedKey</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": 683.1333997577012,
+            "y": 81.73451548934024
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "CryptographyLib",
+            "type": "Exchange",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "Exchange",
+            "uuid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8",
+            "inputs": [
+                {
+                    "name": "inExec",
+                    "package": "PyFlowBase",
+                    "fullName": "Exchange_inExec",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "6f4d5c73-d604-43f0-86e1-26a3602e0589",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ServerListen",
+                            "outPinId": 1,
+                            "rhsNodeName": "Exchange",
+                            "inPinId": 1,
+                            "lhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc",
+                            "rhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "inExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "a1a42533-2f14-4c3d-8e59-753e7fa36e77",
+                                "destinationUUID": "6f4d5c73-d604-43f0-86e1-26a3602e0589",
+                                "sourceName": "ServerListen_outExec",
+                                "destinationName": "Exchange_inExec",
+                                "uuid": "f96b31b0-fdb2-4dd7-bd19-54af3a574871",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "sent_public_key",
+                    "package": "PyFlowBase",
+                    "fullName": "Exchange_sent_public_key",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "b7265edf-2e0e-4678-a832-a32844d4cd80",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ServerListen",
+                            "outPinId": 2,
+                            "rhsNodeName": "Exchange",
+                            "inPinId": 2,
+                            "lhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc",
+                            "rhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "sent_public_key",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "5a4bca11-77ee-4255-800d-d4b04e0afd59",
+                                "destinationUUID": "b7265edf-2e0e-4678-a832-a32844d4cd80",
+                                "sourceName": "ServerListen_out",
+                                "destinationName": "Exchange_sent_public_key",
+                                "uuid": "f63fe7d3-75f3-4222-8dfd-f1a6f41e83ae",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "Exchange_out",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "149318cc-bb24-43d8-a956-e041af8e1fcb",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Exchange",
+                            "outPinId": 2,
+                            "rhsNodeName": "SharedKey",
+                            "inPinId": 1,
+                            "lhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8",
+                            "rhsNodeUid": "5c33975e-9a3f-4afb-8e94-f67241f5eca2"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "149318cc-bb24-43d8-a956-e041af8e1fcb",
+                                "destinationUUID": "ff41d135-b725-4be8-9017-31e649fa1067",
+                                "sourceName": "Exchange_out",
+                                "destinationName": "SharedKey_out2",
+                                "uuid": "9c86cac6-c742-4dcf-878e-47fe98e0ef2c",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "outExec",
+                    "package": "PyFlowBase",
+                    "fullName": "Exchange_outExec",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "47c15c8c-d391-41fa-996a-1699a5360e34",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "Exchange",
+                            "outPinId": 1,
+                            "rhsNodeName": "outExec",
+                            "inPinId": 1,
+                            "lhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8",
+                            "rhsNodeUid": "239ecce5-0e6f-4a61-bd67-17650ad73d61"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "outExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "47c15c8c-d391-41fa-996a-1699a5360e34",
+                                "destinationUUID": "c1799f30-417e-45c5-81eb-bec28437dc65",
+                                "sourceName": "Exchange_outExec",
+                                "destinationName": "outExec_out",
+                                "uuid": "2035d6e3-9590-4423-bd49-070d2d1ab735",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "Exchange"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Exchange</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": 270.8754344968994,
+            "y": -23.87379507301035
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "CryptographyLib",
+            "type": "PublicKey",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "PublicKey",
+            "uuid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44",
+            "inputs": [
+                {
+                    "name": "inExec",
+                    "package": "PyFlowBase",
+                    "fullName": "PublicKey_inExec",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "ae1ed564-001f-4956-b1eb-109c1544bb98",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "setGlobalVar9",
+                            "outPinId": 1,
+                            "rhsNodeName": "PublicKey",
+                            "inPinId": 1,
+                            "lhsNodeUid": "738dacce-e658-4256-b5fa-51899e9ce5c1",
+                            "rhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "inExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "2a3a828c-a491-4798-ab67-c4756053f073",
+                                "destinationUUID": "ae1ed564-001f-4956-b1eb-109c1544bb98",
+                                "sourceName": "setGlobalVar9_outExec",
+                                "destinationName": "PublicKey_inExec",
+                                "uuid": "b714be60-ae78-4069-b522-f1218442359f",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "PublicKey_out",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "22300b28-c0cc-4941-99c5-633d49790441",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "PublicKey",
+                            "outPinId": 2,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 2,
+                            "lhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "22300b28-c0cc-4941-99c5-633d49790441",
+                                "destinationUUID": "4f47cc05-07ed-46b6-a156-a03b9e764855",
+                                "sourceName": "PublicKey_out",
+                                "destinationName": "ClientSend_message",
+                                "uuid": "90b36afc-1675-485c-8f0b-1010527ef536",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "outExec",
+                    "package": "PyFlowBase",
+                    "fullName": "PublicKey_outExec",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "552ba82c-c4ea-4317-85a9-686281e022a8",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "PublicKey",
+                            "outPinId": 1,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 1,
+                            "lhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "outExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "552ba82c-c4ea-4317-85a9-686281e022a8",
+                                "destinationUUID": "a1afc4e5-acfd-4395-9d38-682efb068204",
+                                "sourceName": "PublicKey_outExec",
+                                "destinationName": "ClientSend_inExec",
+                                "uuid": "26811d02-9802-4492-aec6-c765de6c1818",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "PublicKey"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">PublicKey</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -727.0,
+            "y": -148.0
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "CryptographyLib",
+            "type": "ClientSend",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "ClientSend",
+            "uuid": "04801874-182e-4613-926a-b6e71ade6587",
+            "inputs": [
+                {
+                    "name": "inExec",
+                    "package": "PyFlowBase",
+                    "fullName": "ClientSend_inExec",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "a1afc4e5-acfd-4395-9d38-682efb068204",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "PublicKey",
+                            "outPinId": 1,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 1,
+                            "lhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "inExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "552ba82c-c4ea-4317-85a9-686281e022a8",
+                                "destinationUUID": "a1afc4e5-acfd-4395-9d38-682efb068204",
+                                "sourceName": "PublicKey_outExec",
+                                "destinationName": "ClientSend_inExec",
+                                "uuid": "26811d02-9802-4492-aec6-c765de6c1818",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "host",
+                    "package": "PyFlowBase",
+                    "fullName": "ClientSend_host",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "86086b3d-2238-4661-9067-21bd4bf79dec",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "getGlobalVar23",
+                            "outPinId": 1,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 3,
+                            "lhsNodeUid": "506eb72e-a2d8-4464-8cd0-8b44c02ed05b",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 3,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "host",
+                        "wires": {
+                            "3": {
+                                "sourceUUID": "8e942a50-d26a-4b5f-8a32-3e012c53b330",
+                                "destinationUUID": "86086b3d-2238-4661-9067-21bd4bf79dec",
+                                "sourceName": "getGlobalVar23_out",
+                                "destinationName": "ClientSend_host",
+                                "uuid": "8e18aff5-ef1b-471a-8e92-3231d2471c9a",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "message",
+                    "package": "PyFlowBase",
+                    "fullName": "ClientSend_message",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "4f47cc05-07ed-46b6-a156-a03b9e764855",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "PublicKey",
+                            "outPinId": 2,
+                            "rhsNodeName": "ClientSend",
+                            "inPinId": 2,
+                            "lhsNodeUid": "a6d6d95e-6e64-400f-84ec-9fd8d97a4e44",
+                            "rhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "message",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "22300b28-c0cc-4941-99c5-633d49790441",
+                                "destinationUUID": "4f47cc05-07ed-46b6-a156-a03b9e764855",
+                                "sourceName": "PublicKey_out",
+                                "destinationName": "ClientSend_message",
+                                "uuid": "90b36afc-1675-485c-8f0b-1010527ef536",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "outExec",
+                    "package": "PyFlowBase",
+                    "fullName": "ClientSend_outExec",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "ccb01c13-f2c0-431a-92ed-541626e5384b",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ClientSend",
+                            "outPinId": 1,
+                            "rhsNodeName": "ServerListen",
+                            "inPinId": 1,
+                            "lhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587",
+                            "rhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "outExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "ccb01c13-f2c0-431a-92ed-541626e5384b",
+                                "destinationUUID": "e83b8d9c-32df-4190-9ef0-d1fe9654aeb4",
+                                "sourceName": "ClientSend_outExec",
+                                "destinationName": "ServerListen_inExec",
+                                "uuid": "ef246ce0-d09c-442b-b8a5-662b613d9209",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "ClientSend_out",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "ed848f1e-7c2c-4fe5-b368-e681ceb64851",
+                    "linkedTo": [],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {}
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "ClientSend"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ClientSend</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -407.0,
+            "y": -149.0
+        },
+        {
+            "package": "PyFlowBase",
+            "lib": "CryptographyLib",
+            "type": "ServerListen",
+            "owningGraphName": "Diffie_Hellman_Client",
+            "name": "ServerListen",
+            "uuid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc",
+            "inputs": [
+                {
+                    "name": "host",
+                    "package": "PyFlowBase",
+                    "fullName": "ServerListen_host",
+                    "dataType": "StringPin",
+                    "direction": 0,
+                    "value": "\"\"",
+                    "uuid": "5ab70d52-2ffb-4447-bedd-938fd98ff86f",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "getGlobalVar23",
+                            "outPinId": 1,
+                            "rhsNodeName": "ServerListen",
+                            "inPinId": 2,
+                            "lhsNodeUid": "506eb72e-a2d8-4464-8cd0-8b44c02ed05b",
+                            "rhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "host",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "8e942a50-d26a-4b5f-8a32-3e012c53b330",
+                                "destinationUUID": "5ab70d52-2ffb-4447-bedd-938fd98ff86f",
+                                "sourceName": "getGlobalVar23_out",
+                                "destinationName": "ServerListen_host",
+                                "uuid": "18182d52-3332-4930-b554-2589b0ab47ad",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "inExec",
+                    "package": "PyFlowBase",
+                    "fullName": "ServerListen_inExec",
+                    "dataType": "ExecPin",
+                    "direction": 0,
+                    "value": "null",
+                    "uuid": "e83b8d9c-32df-4190-9ef0-d1fe9654aeb4",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ClientSend",
+                            "outPinId": 1,
+                            "rhsNodeName": "ServerListen",
+                            "inPinId": 1,
+                            "lhsNodeUid": "04801874-182e-4613-926a-b6e71ade6587",
+                            "rhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        8,
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "inExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "ccb01c13-f2c0-431a-92ed-541626e5384b",
+                                "destinationUUID": "e83b8d9c-32df-4190-9ef0-d1fe9654aeb4",
+                                "sourceName": "ClientSend_outExec",
+                                "destinationName": "ServerListen_inExec",
+                                "uuid": "ef246ce0-d09c-442b-b8a5-662b613d9209",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "outExec",
+                    "package": "PyFlowBase",
+                    "fullName": "ServerListen_outExec",
+                    "dataType": "ExecPin",
+                    "direction": 1,
+                    "value": "null",
+                    "uuid": "a1a42533-2f14-4c3d-8e59-753e7fa36e77",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ServerListen",
+                            "outPinId": 1,
+                            "rhsNodeName": "Exchange",
+                            "inPinId": 1,
+                            "lhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc",
+                            "rhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8"
+                        }
+                    ],
+                    "pinIndex": 1,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "outExec",
+                        "wires": {
+                            "1": {
+                                "sourceUUID": "a1a42533-2f14-4c3d-8e59-753e7fa36e77",
+                                "destinationUUID": "6f4d5c73-d604-43f0-86e1-26a3602e0589",
+                                "sourceName": "ServerListen_outExec",
+                                "destinationName": "Exchange_inExec",
+                                "uuid": "f96b31b0-fdb2-4dd7-bd19-54af3a574871",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "out",
+                    "package": "PyFlowBase",
+                    "fullName": "ServerListen_out",
+                    "dataType": "StringPin",
+                    "direction": 1,
+                    "value": "\"\"",
+                    "uuid": "5a4bca11-77ee-4255-800d-d4b04e0afd59",
+                    "linkedTo": [
+                        {
+                            "lhsNodeName": "ServerListen",
+                            "outPinId": 2,
+                            "rhsNodeName": "Exchange",
+                            "inPinId": 2,
+                            "lhsNodeUid": "cd1d1495-a92c-4685-a22e-00aeebcf91cc",
+                            "rhsNodeUid": "18cbc19e-8bcb-4dc4-b5f8-2202500e83b8"
+                        }
+                    ],
+                    "pinIndex": 2,
+                    "options": [
+                        256
+                    ],
+                    "structure": 0,
+                    "alwaysList": false,
+                    "alwaysSingle": false,
+                    "alwaysDict": false,
+                    "wrapper": {
+                        "bLabelHidden": false,
+                        "displayName": "out",
+                        "wires": {
+                            "2": {
+                                "sourceUUID": "5a4bca11-77ee-4255-800d-d4b04e0afd59",
+                                "destinationUUID": "b7265edf-2e0e-4678-a832-a32844d4cd80",
+                                "sourceName": "ServerListen_out",
+                                "destinationName": "Exchange_sent_public_key",
+                                "uuid": "f63fe7d3-75f3-4222-8dfd-f1a6f41e83ae",
+                                "hOffsetL": "0.0",
+                                "hOffsetR": "0.0",
+                                "hOffsetLSShape": "0.0",
+                                "hOffsetRSShape": "0.0",
+                                "vOffset": "0.0",
+                                "vOffsetSShape": "0.0",
+                                "snapVToFirst": 1,
+                                "snapVToSecond": 0
+                            }
+                        }
+                    }
+                }
+            ],
+            "meta": {
+                "var": {},
+                "label": "ServerListen"
+            },
+            "wrapper": {
+                "collapsed": false,
+                "headerHtml": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'Consolas'; font-size:6pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ServerListen</p></body></html>",
+                "exposeInputsToCompound": false,
+                "groups": {
+                    "input": {},
+                    "output": {}
+                }
+            },
+            "x": -54.0,
+            "y": -94.0
+        }
+    ],
+    "depth": 2,
+    "isRoot": false,
+    "parentGraphName": "root"
+}
