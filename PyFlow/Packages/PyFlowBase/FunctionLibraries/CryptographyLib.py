@@ -5,7 +5,6 @@ from PyFlow.Core import(
 from PyFlow.Core import NodeBase
 from PyFlow.Core.Common import *
 import hashlib
-from cryptography.fernet import Fernet
 import socket
 import math
 from math import sqrt
@@ -19,6 +18,12 @@ from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding,
 from codecs import encode
 from cryptography.hazmat.primitives.ciphers.aead import AESCCM
 import os
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+
+
+
 
 def revert_to_bytes(string_item):
     string_item = string_item[2:len(string_item)-1]
@@ -51,11 +56,21 @@ def generate_keys(p,g):
 
 
 
-
+#For Diffie-Hellman Key exchange
 p,g = get_parameters()
 private_key, public_key = generate_keys(p,g)
 
+#For default AES key if not provided one
 default_AES = str(AESCCM.generate_key(bit_length=128))
+
+
+#For RSA Signature
+RSAprivate_key = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048,
+    backend=default_backend()
+)
+RSApublic_key = RSAprivate_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
 
 
 
@@ -126,6 +141,47 @@ class CryptographyLib(FunctionLibraryBase):
     def KeyGen():
         f = Fernet.generate_key()
         return f.decode("utf-8")
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def RSAPublicKey():
+        return RSApublic_key
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def RSA_sign(message=('StringPin', "")):
+        data = bytes(message, 'utf-8')
+        signature = RSAprivate_key.sign(
+            data,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+        return str(signature)
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def RSA_verify(signature=('StringPin', ""), sent_RSA_public=('StringPin', ""), message = ('StringPin', "")):
+        signature = revert_to_bytes(signature)
+        sent_RSA_public = revert_to_bytes(sent_RSA_public)
+        pub = load_der_public_key(sent_RSA_public, default_backend())
+        data = bytes(message, 'utf-8')
+        try:
+            pub.verify(
+                signature,
+                data,
+                padding.PSS(
+                    mgf=padding.MGF1(hashes.SHA256()),
+                    salt_length=padding.PSS.MAX_LENGTH
+                ),
+                hashes.SHA256()
+            )
+            return "Correct Signature"
+        except:
+            return "Incorrect Signature"
+
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
