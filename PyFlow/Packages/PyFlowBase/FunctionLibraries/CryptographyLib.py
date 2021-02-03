@@ -148,9 +148,16 @@ class CryptographyLib(FunctionLibraryBase):
         return RSApublic_key
 
     @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def GetMessageFromeSignature(signature=('StringPin', "")):
+        info_list = signature.split("&&&&&&&")
+        message = info_list[1]
+        return str(message)
+
+    @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def RSA_sign(message=('StringPin', "")):
-        data = bytes(message, 'utf-8')
+        data = revert_to_bytes(message)
         signature = RSAprivate_key.sign(
             data,
             padding.PSS(
@@ -159,18 +166,21 @@ class CryptographyLib(FunctionLibraryBase):
             ),
             hashes.SHA256()
         )
-        return str(signature)
+        return str(signature)+ "&&&&&&&" + str(data)
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def RSA_verify(signature=('StringPin', ""), sent_RSA_public=('StringPin', ""), message = ('StringPin', "")):
-        signature = revert_to_bytes(signature)
-        sent_RSA_public = revert_to_bytes(sent_RSA_public)
-        pub = load_der_public_key(sent_RSA_public, default_backend())
-        data = bytes(message, 'utf-8')
+    @IMPLEMENT_NODE(returns=("BoolPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def RSA_verify(signature=('StringPin', ""), sent_RSA_public=('StringPin', "")):
+        info_list = signature.split('&&&&&&&')
+        sign = info_list[0]
+        message = info_list[1]
+        sign_bytes = revert_to_bytes(sign)
+        sent_RSA_public_bytes = revert_to_bytes(sent_RSA_public)
+        pub = load_der_public_key(sent_RSA_public_bytes, default_backend())
+        data = revert_to_bytes(message)
         try:
             pub.verify(
-                signature,
+                sign_bytes,
                 data,
                 padding.PSS(
                     mgf=padding.MGF1(hashes.SHA256()),
@@ -178,9 +188,9 @@ class CryptographyLib(FunctionLibraryBase):
                 ),
                 hashes.SHA256()
             )
-            return "Correct Signature"
+            return True
         except:
-            return "Incorrect Signature"
+            return False
 
 
     @staticmethod
@@ -235,7 +245,7 @@ class CryptographyLib(FunctionLibraryBase):
   
         s.listen(1)
         client_socket, addr = s.accept()
-        data = client_socket.recv(4096).decode('utf-8')
+        data = client_socket.recv(8192).decode('utf-8')
 
         client_socket.close()
         return data
