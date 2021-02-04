@@ -21,6 +21,7 @@ import os
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 
 
 
@@ -103,7 +104,15 @@ class CryptographyLib(FunctionLibraryBase):
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
     def SHA256(inp=('StringPin', "")):
-        return hashlib.sha256(inp.encode()).hexdigest()
+        derived_key = HKDF(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=None,
+        info=b'handshake data',
+        backend = default_backend()
+        ).derive(revert_to_bytes(inp))
+
+        return derived_key
 
 
     @staticmethod
