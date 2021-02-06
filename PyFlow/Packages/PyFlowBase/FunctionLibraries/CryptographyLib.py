@@ -4,14 +4,9 @@ from PyFlow.Core import(
 )
 from PyFlow.Core import NodeBase
 from PyFlow.Core.Common import *
-import hashlib
 import socket
-import math
-from math import sqrt
 import random
-import sys
 from Cryptodome.Util import number
-from decimal import Decimal
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding, load_der_public_key, load_der_private_key, PrivateFormat
@@ -22,7 +17,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-
+import time
 
 
 
@@ -87,23 +82,10 @@ class CryptographyLib(FunctionLibraryBase):
     def generateLargePrime(k=('IntPin', 0)):
         return number.getPrime(k)
 
-    @staticmethod
-    @IMPLEMENT_NODE(returns=('IntPin', 0.0), meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def power(x=('IntPin', 0.0), y=('IntPin', 0.0), result=(REF, ('BoolPin', False))):
-        '''Return `x` raised to the power `y`.'''
-        try:
-            result(True)
-            return int(math.pow(x, y))
-        except:
-            result(False)
-            return -1
-
-    
-
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def SHA256(inp=('StringPin', "")):
+    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Hashing', NodeMeta.KEYWORDS: []})
+    def SHA_256(inp=('StringPin', "")):
         derived_key = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
@@ -114,6 +96,32 @@ class CryptographyLib(FunctionLibraryBase):
 
         return derived_key
 
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Hashing', NodeMeta.KEYWORDS: []})
+    def SHA_384(inp=('StringPin', "")):
+        derived_key = HKDF(
+        algorithm=hashes.SHA384(),
+        length=32,
+        salt=None,
+        info=b'handshake data',
+        backend = default_backend()
+        ).derive(revert_to_bytes(inp))
+
+        return derived_key
+
+    @staticmethod
+    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Hashing', NodeMeta.KEYWORDS: []})
+    def SHA_512(inp=('StringPin', "")):
+        derived_key = HKDF(
+        algorithm=hashes.SHA512(),
+        length=32,
+        salt=None,
+        info=b'handshake data',
+        backend = default_backend()
+        ).derive(revert_to_bytes(inp))
+
+        return derived_key
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
@@ -134,11 +142,11 @@ class CryptographyLib(FunctionLibraryBase):
         listItems= item.split(',')
         return int(listItems[index])
 
-
     @staticmethod
-    @IMPLEMENT_NODE(returns=("IntPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def generateLargePrime(k=('IntPin', 0)):
-        return number.getPrime(k)
+    @IMPLEMENT_NODE(returns=("FloatPin", 0), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    def get_time():
+        start = time.time()
+        return start
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("IntPin", 0, {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
@@ -146,25 +154,19 @@ class CryptographyLib(FunctionLibraryBase):
         return findPrimitive(inp)
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", "", {PinSpecifires.CONSTRAINT: "1", PinSpecifires.SUPPORTED_DATA_TYPES: ["StringPin"]}),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
-    def KeyGen():
-        f = Fernet.generate_key()
-        return f.decode("utf-8")
-
-    @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'RSA', NodeMeta.KEYWORDS: []})
     def RSAPublicKey():
         return RSApublic_key
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'RSA', NodeMeta.KEYWORDS: []})
     def GetMessageFromeSignature(signature=('StringPin', "")):
         info_list = signature.split("&&&&&&&")
         message = info_list[1]
         return str(message)
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'RSA', NodeMeta.KEYWORDS: []})
     def RSA_sign(message=('StringPin', "")):
         data = revert_to_bytes(message)
         signature = RSAprivate_key.sign(
@@ -178,7 +180,7 @@ class CryptographyLib(FunctionLibraryBase):
         return str(signature)+ "&&&&&&&" + str(data)
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("BoolPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("BoolPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'RSA', NodeMeta.KEYWORDS: []})
     def RSA_verify(signature=('StringPin', ""), sent_RSA_public=('StringPin', "")):
         info_list = signature.split('&&&&&&&')
         sign = info_list[0]
@@ -203,7 +205,7 @@ class CryptographyLib(FunctionLibraryBase):
 
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""),nodeType= NodeTypes.Callable, meta={NodeMeta.CATEGORY: 'AES', NodeMeta.KEYWORDS: []})
     def AESccm_Encrypt(key=('StringPin', default_AES), dataIn=('StringPin', "")):
         key = revert_to_bytes(key)
         aad = b"Associated Data"
@@ -216,7 +218,7 @@ class CryptographyLib(FunctionLibraryBase):
         return str(ct)+","+str(nonce)+","+str(aad)
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'AES', NodeMeta.KEYWORDS: []})
     def AESccm_Decrypt(key=('StringPin', default_AES), token=('StringPin', "")):
         key = revert_to_bytes(key)
 
@@ -231,7 +233,7 @@ class CryptographyLib(FunctionLibraryBase):
         return str(aesccm.decrypt(nonce,ct,aad))
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Communication', NodeMeta.KEYWORDS: []})
     def ClientSend(message=('StringPin', ""), host=('StringPin', socket.gethostname())):
         #host = socket.gethostname()  # get local machine name
         port = 8080  # Make sure it's within the > 1024 $$ <65535 range
@@ -244,7 +246,7 @@ class CryptographyLib(FunctionLibraryBase):
         return "Sent"
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Communication', NodeMeta.KEYWORDS: []})
     def ServerListen(host=('StringPin', socket.gethostname())):
         #host = socket.gethostname()   # get local machine name
         port = 8080  # Make sure it's within the > 1024 $$ <65535 range
@@ -261,12 +263,12 @@ class CryptographyLib(FunctionLibraryBase):
 
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Diffie-Building-Blocks', NodeMeta.KEYWORDS: []})
     def PublicKey():
     	return public_key
 
     @staticmethod
-    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Cryptographic_Primitives', NodeMeta.KEYWORDS: []})
+    @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'Diffie-Building-Blocks', NodeMeta.KEYWORDS: []})
     def Exchange(sent_public_key=('StringPin', "")):
         key= revert_to_bytes(sent_public_key)
 
