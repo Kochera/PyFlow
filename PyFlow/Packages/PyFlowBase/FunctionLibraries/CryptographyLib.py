@@ -215,7 +215,7 @@ class CryptographyLib(FunctionLibraryBase):
         data_bytes = bytes(dataIn, 'utf-8')
         ct = aesccm.encrypt(nonce, data_bytes, aad)
         
-        return str(ct)+","+str(nonce)+","+str(aad)
+        return str(ct)+"&&&&"+str(nonce)+"&&&&"+str(aad)
 
     @staticmethod
     @IMPLEMENT_NODE(returns=("StringPin", ""), nodeType= NodeTypes.Callable,meta={NodeMeta.CATEGORY: 'AES', NodeMeta.KEYWORDS: []})
@@ -223,7 +223,7 @@ class CryptographyLib(FunctionLibraryBase):
         key = revert_to_bytes(key)
 
         aesccm = AESCCM(key)
-        list_token = token.split(',')
+        list_token = token.split('&&&&')
         ct = revert_to_bytes(list_token[0])
         nonce = revert_to_bytes(list_token[1])
         aad = revert_to_bytes(list_token[2])
