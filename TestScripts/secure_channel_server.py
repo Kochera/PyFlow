@@ -3,6 +3,8 @@ from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding, load_der_public_key
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives import hashes
+import os
+from cryptography.hazmat.primitives.ciphers.aead import AESCCM
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 import socket
@@ -61,7 +63,7 @@ def do_exchange(server_private_key, server_public_key):
 	host = '127.0.0.1'   
 	port = 65432
 
-	RSAprivate_key,RSApublic_key = rsa_keys()
+	RSAprivate_key,RSApublic_key = rsa_keys() 
 
 	#TCP    
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -123,15 +125,103 @@ def do_exchange(server_private_key, server_public_key):
 		#deserialize the clients key after transmission, so it is usable to generate shared key
 		client_public_key = load_der_public_key(client_key, default_backend())
 
-		#close the connection
+
+	#generate the shared key with client's public key and server's private key
+		shared_key = server_private_key.exchange(client_public_key)
+
+
+		derived_key = sha_256(shared_key)
+
+		aes = aesc(derived_key)
+
+		ct = clientsocket.recv(8192)
+
+		print("Got client cipher text: " + str(ct))
+
+		print(type(ct))
+		
+		cipher = ct.split(b"&&&&")
+		print(cipher)
+
+		ciphertext = cipher[0]
+		nonce = cipher[1]
+		print(nonce)
+		aad=bytes(cipher[2])
+
+		message = aes.decrypt(ciphertext,nonce,aad)
+
+		print(message)
+
 		clientsocket.close()
 		break
 
 	#generate the shared key with client's public key and server's private key
-	shared_key = server_private_key.exchange(client_public_key)
+	
 
 
-	return shared_key
+	
+
+def sha_256(key):
+	derived_key = HKDF(
+		algorithm=hashes.SHA256(),
+		length=32,
+		salt=None,
+		info=b'handshake data',
+		backend = default_backend()
+		).derive(key)
+	return derived_key
+
+def aesc(key):
+	aesccm = AESCCM(key)
+	return aesccm
+
+def recieve_encrypted_message(key):
+	host = '127.0.0.1'   
+	port = 65431
+
+	#TCP    
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.bind((host, port))
+
+	s.listen(1)
+
+	while True:
+
+		#accept connection from client
+		clientsocket,address = s.accept()
+		print(f"Connection from {address} has been established.")
+
+		aes= aesc(key)
+		
+		
+
+		#recieve the client's public key
+		
+		ct = clientsocket.recv(8192)
+
+		print("Got client cipher text: " + str(ct))
+
+		print(type(ct))
+		
+		cipher = ct.split(b"&&&&")
+		print(cipher)
+
+		ciphertext = cipher[0]
+		nonce = cipher[1]
+		print(nonce)
+		aad=bytes(cipher[2])
+
+		message = aes.decrypt(ciphertext,nonce,aad)
+
+		print(message)
+
+		#deserialize the clients key after transmission, so it is usable to generate shared key
+		#message= aes.decrypt()
+
+		#close the connection
+		#clientsocket.close()
+		break
+		
 
 #run all functions in main method 
 def main():
@@ -139,8 +229,14 @@ def main():
 
 	priv, pub = generate_keys(p,g)
 
-	shared_key = do_exchange(priv, pub)
+	do_exchange(priv, pub)
 
-	print("shared key: " + str(shared_key))
+	#print("Shared_Key: ", shared_key)
+
+	#derived_key = sha_256(shared_key)
+
+	#print("derived_key: ", shared_key)
+
+	#recieve_encrypted_message(derived_key)
 
 main()
