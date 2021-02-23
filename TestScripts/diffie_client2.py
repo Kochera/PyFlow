@@ -6,27 +6,14 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 import socket
-
+import time
 #grab published group parameters that can be used to generate diffie parameters! Grabbing from 
 #a file to simulate the way these will be grabbed in pyflow. Might need to change later to a method 
 #in another python file that returns variables to both client and server. 
 def get_parameters():
-	p = 0
-	g = 0 
-	file = ''
-	try:
-		file = open("parameters.txt","r")
-		parameters = file.read()
-		file.close()
-		parameters = parameters.split()
-		p = parameters[0]
-		g = parameters[1]
+	p = 0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE45B3DC2007CB8A163BF0598DA48361C55D39A69163FA8FD24CF5F83655D23DCA3AD961C62F356208552BB9ED529077096966D670C354E4ABC9804F1746C08CA18217C32905E462E36CE3BE39E772C180E86039B2783A2EC07A28FB5C55DF06F4C52C9DE2BCBF6955817183995497CEA956AE515D2261898FA051015728E5A8AACAA68FFFFFFFFFFFFFFFF
 
-	except:
-	    print("file not found")
-
-	p = int(p, 16)
-	g = int(g)
+	g = 2
 
 	return p,g
 
@@ -55,12 +42,12 @@ def rsa_keys():
 	return RSAprivate_key, RSApublic_key
 
 
-def do_exchange(client_private_key, client_public_key):
+def do_exchange(client_private_key, client_public_key, RSAprivate_key, RSApublic_key):
 	#define exchange on local host on high port number
 	host = '127.0.0.1' 
 	port = 65432 
 
-	RSAprivate_key,RSApublic_key = rsa_keys()  
+	#RSAprivate_key,RSApublic_key = rsa_keys()  
 
 	#tcp
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -70,14 +57,12 @@ def do_exchange(client_private_key, client_public_key):
 
 	
 	server_rsa_bytes= s.recv(8192)
-	print("recieving servers public key: " + str(server_rsa_bytes))
 	server_rsa_key = load_der_public_key(server_rsa_bytes, default_backend())
 	
 	#recieve the severs's public key
 	
 	server_signed_public_key = s.recv(8192)
 	server_signed_public_key = server_signed_public_key.split(b"&&&&&")
-	print("recieving servers signed public key and key: " +str(server_signed_public_key))
 	signature= server_signed_public_key[0]
 	server_key = server_signed_public_key[1]
 	#server_key_deserialized = load_der_public_key(server_key, default_backend())
@@ -97,7 +82,7 @@ def do_exchange(client_private_key, client_public_key):
 
 	#print("Got server public key: " + str(server_public_key))
 	
-	print("client sending public key: " + str(RSApublic_key))
+
 	s.send(RSApublic_key)
 
 	public_signed_key = RSAprivate_key.sign(client_public_key, 
@@ -108,7 +93,6 @@ def do_exchange(client_private_key, client_public_key):
 			hashes.SHA256()
 			)
 
-	print("client sending signed public key and key: " + str(public_signed_key) + "&&&&&" + str(client_public_key))
 	s.send(public_signed_key + b"&&&&&" + client_public_key)
 	
 	#deserialize the server's key after transmission, so it is usable to generate shared key
@@ -123,16 +107,24 @@ def do_exchange(client_private_key, client_public_key):
 
 	return shared_key
 
+
 def main():
 	p,g = get_parameters()
 
 	priv, pub = generate_keys(p,g)
+	RSApriv_key,RSApub_key = rsa_keys()
 
-	shared_key = do_exchange(priv, pub)
+	time_start= time.time()
+	for i in range(1000):
+		try:
+			shared_key = do_exchange(priv, pub, RSApriv_key, RSApub_key)
+			time.sleep(0.1)
+			print(shared_key)
+		except:
+			print('error found')
+	time_end = time.time()
 
-	print("shared key: " + str(shared_key))
+	print(time_end-time_start)
 
 
 main()
-
-
