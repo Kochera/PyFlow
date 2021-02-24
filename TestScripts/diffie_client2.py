@@ -113,18 +113,21 @@ def main():
 
 	priv, pub = generate_keys(p,g)
 	RSApriv_key,RSApub_key = rsa_keys()
+	count = 0
 
 	time_start= time.time()
 	for i in range(1000):
 		try:
 			shared_key = do_exchange(priv, pub, RSApriv_key, RSApub_key)
-			time.sleep(0.1)
+			time.sleep(0.01)
 			print(shared_key)
 		except:
 			print('error found')
+			count +=1
 	time_end = time.time()
 
 	print(time_end-time_start)
+	print(count)
 
 
 main()
